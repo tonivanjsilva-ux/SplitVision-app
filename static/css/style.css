@@ -1,0 +1,126 @@
+body {
+    background-color: #d3d3d3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Poppins', Arial, sans-serif;
+}
+
+.form-container {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 20px 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 400px;
+}
+
+h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.upload-area {
+    border: 2px dashed #4682B4;
+    background-color: #f9f9f9;
+    padding: 30px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.upload-area:hover {
+    background-color: #e6f0fa;
+}
+
+.upload-area input[type="file"] {
+    display: none;
+}
+
+.upload-btn {
+    background: linear-gradient(to bottom, #87CEFA, #4682B4);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    height: 30px;
+    width: 150px;
+    font-size: 14px;
+}
+
+.file-highlight {
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 10px;
+    padding: 8px;
+    border-radius: 5px;
+    background: linear-gradient(to right, #ff6666, #4682B4);/* vermelho → azul */
+    color: #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+input[type="text"] {
+    width: 80%;
+    padding: 8px;
+    margin: 10px auto;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.progress-bar {
+    width: 100%;
+    background-color: #eee;
+    border-radius: 5px;
+    margin: 15px 0;
+}
+
+.progress {
+    height: 20px;
+    width: 0%;
+    background: linear-gradient(to right, #ff6666, #4682B4);
+    /* vermelho → azul */
+    border-radius: 5px;
+    text-align: center;
+    color: #fff;
+    font-size: 12px;
+    line-height: 20px;
+    transition: width 0.3s ease;
+}
+
+button {
+    background-color: #87CEFA;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    height: 40px;
+    width: 150px;
+    font-size: 14px;
+    margin-top: 15px;
+}
+
+button:hover {
+    background-color: #4682B4;
+}
+
+.footer {
+    position: fixed;       /* fixa no fim da tela */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #4682B4; /* azul elegante */
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 14px;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
+}
+
+.footer strong {
+    font-weight: bold;
+    color: #FFD700; /* dourado elegante */
+}
