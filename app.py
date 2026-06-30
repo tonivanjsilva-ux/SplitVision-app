@@ -6,9 +6,16 @@ import pytesseract
 
 app = Flask(__name__)
 
-# Configura caminhos do Tesseract e Poppler
-pytesseract.pytesseract.tesseract_cmd = r"tesseract\\tesseract.exe"
-poppler_path = r"poppler\\bin"
+# 🔹 CONFIGURAÇÃO INTELIGENTE DE AMBIENTE (Windows vs Linux/Render)
+IS_WINDOWS = os.name == 'nt'
+
+if IS_WINDOWS:
+    # Mantém a configuração para funcionar no seu computador de desenvolvimento
+    pytesseract.pytesseract.tesseract_cmd = r"tesseract\\tesseract.exe"
+    POPPLER_PARAM = {"poppler_path": r"poppler\\bin"}
+else:
+    # No Render (Linux), o sistema localiza os binários globais automaticamente
+    POPPLER_PARAM = {}
 
 # Variáveis globais
 last_pdf_path = None
@@ -42,10 +49,12 @@ def process_pdf():
             return
 
         reader = PdfReader(last_pdf_path)
-        pages_img = convert_from_path(last_pdf_path, poppler_path=poppler_path)
+        
+        # 🔹 Desempacota o parâmetro do Poppler dinamicamente usando **
+        pages_img = convert_from_path(last_pdf_path, **POPPLER_PARAM)
         total_pages = len(reader.pages)
 
-        # 🔹 cria ZIP em memória
+        # cria ZIP em memória
         zip_buffer = io.BytesIO()
         with zipfile.ZipFile(zip_buffer, 'w') as zipf:
             for i, page in enumerate(reader.pages):
@@ -66,7 +75,7 @@ def process_pdf():
                 writer.write(pdf_bytes)
                 pdf_bytes.seek(0)
 
-                # 🔹 adiciona direto no ZIP (sem pasta)
+                # adiciona direto no ZIP (sem pasta)
                 zipf.writestr(nome_arquivo, pdf_bytes.read())
 
                 time.sleep(0.5)
@@ -76,6 +85,10 @@ def process_pdf():
         # guarda ZIP em memória
         zip_buffer.seek(0)
         last_zip_bytes = zip_buffer.read()
+
+        # Limpeza opcional: deleta o arquivo PDF original para liberar espaço em disco
+        if os.path.exists(last_pdf_path):
+            os.remove(last_pdf_path)
 
         yield "data:done\n\n"
 
@@ -94,4 +107,5 @@ def download_zip():
     return "Arquivo ZIP não encontrado", 404
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
